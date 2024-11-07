@@ -5,14 +5,16 @@ import { parseStringify } from "../utils";
 
 export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
   try {
-    const { data } = await clerkClient.users.getClerkUsers({
+    const { data } = await (
+      await clerkClient()
+    ).users.getUserList({
       emailAddress: userIds,
     });
 
     const users = data.map((user) => ({
       id: user.id,
       name: `${user.firstName} ${user.lastName}`,
-      email: user.emailAddress[0].emailAddress,
+      email: user.emailAddresses[0].emailAddress,
       avatar: user.imageUrl,
     }));
 
@@ -22,6 +24,6 @@ export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
 
     return parseStringify(sortedUsers);
   } catch (error) {
-    console.error(`Error fetching users: ${error}`);
+    console.log(`Error fetching users: ${error}`);
   }
 };

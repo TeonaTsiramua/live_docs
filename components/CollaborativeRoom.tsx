@@ -14,8 +14,9 @@ import Loader from "./Loader";
 const CollaborativeRoom = ({
   roomId,
   roomMetadata,
+  users,
+  currentUserType,
 }: CollaborativeRoomProps) => {
-  const currentUserType = "Editor";
   const [title, setTitle] = useState(roomMetadata.title);
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -93,7 +94,7 @@ const CollaborativeRoom = ({
                 </>
               )}
 
-              {currentUserType === "Editor" && !editing && (
+              {currentUserType === "editor" && !editing && (
                 <Image
                   src="/assets/icons/edit.svg"
                   alt="edit"
@@ -104,7 +105,7 @@ const CollaborativeRoom = ({
                 />
               )}
 
-              {currentUserType !== "Editor" && !editing && (
+              {currentUserType !== "editor" && !editing && (
                 <p className="view-only-tag">View only</p>
               )}
 
@@ -121,7 +122,7 @@ const CollaborativeRoom = ({
               </SignedIn>
             </div>
           </Header>
-          <Editor />
+          <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>
