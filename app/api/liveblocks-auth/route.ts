@@ -14,7 +14,7 @@ export async function POST() {
     id: id,
     info: {
       id,
-      name: `${firstName} ${lastName}`,
+      name: `${firstName} ${lastName !== null ? lastName : ""}`,
       email: emailAddresses[0].emailAddress,
       avatar: imageUrl,
       color: getUserColor(id),
