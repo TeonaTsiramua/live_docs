@@ -10,11 +10,11 @@ const Document = async ({ params }: { params: { id: string } }) => {
   if (!clerkUser) redirect("/sign-in");
 
   const room = (await getDocument({
-    roomId: id,
-    userId: clerkUser.emailAddresses[0].emailAddress,
+    roomId: id as string,
+    userId: clerkUser.emailAddresses[0].emailAddress as string,
   })) as {
+    metadata: any;
     usersAccesses: { [email: string]: string[] };
-    metadata: Record<string, unknown>;
   };
 
   if (!room) redirect("/");
@@ -28,7 +28,7 @@ const Document = async ({ params }: { params: { id: string } }) => {
       ...user,
       userType: room.usersAccesses[user.email]?.includes("room:write")
         ? "editor"
-        : "viewer",
+        : ("viewer" as UserType),
     }));
 
   const currentUserType = room.usersAccesses[
@@ -42,7 +42,7 @@ const Document = async ({ params }: { params: { id: string } }) => {
       <CollaborativeRoom
         roomId={id}
         roomMetadata={room.metadata}
-        users={usersData}
+        users={usersData || []}
         currentUserType={currentUserType}
       />
     </main>
