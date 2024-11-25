@@ -16,7 +16,13 @@ const Provider = ({ children }: { children: ReactNode }) => {
       authEndpoint="/api/liveblocks-auth"
       resolveUsers={async ({ userIds }) => {
         const users = await getClerkUsers({ userIds });
-        return users;
+        return users?.map((user) => {
+          if (!user) return undefined;
+          return {
+            ...user,
+            color: "#000000",
+          };
+        });
       }}
       resolveMentionSuggestions={async ({ text, roomId }) => {
         const roomUsers = await getDocumentUsers({
